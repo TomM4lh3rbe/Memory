@@ -14,3 +14,15 @@ function shuffle(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+function initGame() {
+    shuffle(cards);
+    cards.forEach((url) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.value = url;
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        document.getElementById("game-board").appendChild(card);
+    })
+}
