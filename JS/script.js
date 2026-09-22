@@ -14,3 +14,7 @@ function shuffle(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+function initGame() {
+    shuffle(images);
+}
