@@ -6,6 +6,8 @@ let secondCard = null;
 let lockBoard = false;
 let moves = 0;
 let matchedCount = 0;
+let seconds = 0;
+let timerInterval = null;
 
 
 const images = [];
@@ -22,9 +24,45 @@ function shuffle(array) {
     }
 }
 
+function formatTime(sec) {
+    const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
+    const secondes = String(sec % 60).padStart(2, "0");
+    return `${minutes}:${secondes}`;
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById("timer").textContent = formatTime(seconds);
+    }, 1000);
+}
+
+function checkVictory() {
+    if (matchedCount == cards.length / 2) {
+        clearInterval(timerInterval);
+        document.getElementById("result").textContent = `Gagné en ${moves} coups et ${formatTime(seconds)} !`;
+    }
+}
+
 function initGame() {
     const board = document.getElementById("game-board");
     board.innerHTML = "";
+
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+    moves = 0;
+    matchedCount = 0;
+    seconds = 0;
+    clearInterval(timerInterval);
+
+    document.getElementById("moves").classList.remove("hidden");
+    document.getElementById("timer").classList.remove("hidden");
+    document.getElementById("moves").textContent = "Coups : 0";
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("result").textContent = "";
+    document.getElementById("start-button").textContent = "Rejouer";
+
     shuffle(cards);
     cards.forEach((url) => {
         const card = document.createElement("div");
@@ -36,6 +74,8 @@ function initGame() {
 
         card.addEventListener('click', () => handleCardClick(card))
     })
+
+    startTimer();
 }
 
 
@@ -54,6 +94,7 @@ function handleCardClick(card) {
     secondCard = card;
     lockBoard = true;
     moves++;
+    document.getElementById("moves").textContent = `Coups : ${moves}`;
     checkMatch();
 }
 
@@ -72,6 +113,7 @@ function checkMatch() {
         firstCard = null;
         secondCard = null;
         lockBoard = false;
+        checkVictory();
     } else {
         setTimeout(() => {
             firstCard.innerHTML = "";
