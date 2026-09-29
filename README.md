@@ -12,7 +12,9 @@ Environ 6 heures
 
 ## Technologies
 
-JavaScript, Html, CSS
+- **Vanilla JS (ES6)** : aucune bibliothèque ni framework
+- **HTML5** sémantique
+- **CSS Grid** : mise en page du plateau de cartes
 
 ## Comment jouer
 
